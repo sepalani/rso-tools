@@ -888,7 +888,7 @@ public class GUI extends javax.swing.JFrame {
     private void jMenuItemQAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemQAboutActionPerformed
         // TODO add your handling code here:
         eUI.messageBox(this,String.format(
-                            "    RsoTool v0.1 %n %n"+
+                            "    RsoTool v0.2 %n %n"+
                             "    Copyright © 2013  SPLN (sepalani) %n"+
                             "    This program is free software: you can redistribute it and/or modify%n" +
                             "    it under the terms of the GNU General Public License as published by%n" +
