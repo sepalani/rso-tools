@@ -16,6 +16,7 @@
 package Tools;
 
 import java.io.*;
+import java.util.*;
 
 /**
  *
@@ -33,6 +34,7 @@ public class RSO {
     
     // Relocation table
     public long irtOffset, irtSize, ertOffset, ertSize;
+    public List<String> r_offset, r_info, r_addend;
     
     // Imports/Exports
     public long importsOffset, importsSize, importsName,
@@ -196,6 +198,72 @@ public class RSO {
         } else {
             eUI.messageBoxExt(null,"Directory doesn't exist!","Failed to write",easyUI.MBIcon_ERROR);
         }
+    }
+    
+    public String[][] getRelocationTable(long offset, long size) {
+        if (!exists()) { return null; }
+        r_offset = new ArrayList<>();
+        r_info = new ArrayList<>();
+        r_addend = new ArrayList<>();
+        
+        try {
+            IO file = new IO(getFile, "r");
+            file.seek(offset);
+            for (long i = 0; i < size;) {
+                // Read r_offset
+                r_offset.add("0x"+String.format("%08X", file.readUint32()));
+                i += 4;
+                // Read r_info
+                file.readUint16();
+                r_info.add("(0x"+String.format("%06X", file.readUint8())+
+                           ",0x"+String.format("%02X", file.readUint8())+")");
+                i += 4;
+                // Read r_addend
+                r_addend.add("0x"+String.format("%08X",file.readUint32()));
+                i += 4;
+            }
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[][] ret; ret = new String[3][];
+        ret[0] = r_offset.toArray(new String[r_offset.size()]);
+        ret[1] = r_info.toArray(new String[r_info.size()]);
+        ret[2] = r_addend.toArray(new String[r_addend.size()]);
+        
+        return ret;
+    }
+    
+    public void exportRelocationTable(String[][] reloc, File out) throws IOException {
+        String str = "";
+        for (int i=0; i < reloc[0].length; i++) {
+            str +=  "r_offset: "    + reloc[0][i]+
+                    "  r_info: "    + reloc[1][i]+
+                    "  r_addend: "  + reloc[2][i]+" %n";
+        }
+        FileWriter fw = new FileWriter(out);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(String.format(str));
+        bw.close();
+    }
+    
+    public void exportAllRelocationTable(String[][] irt, String[][] ert, File out) throws IOException {
+        String str = " Internals relocation table: %n";
+        for (int i=0; i < irt[0].length; i++) {
+            str +=  "r_offset: "    + irt[0][i]+
+                    "  r_info: "    + irt[1][i]+
+                    "  r_addend: "  + irt[2][i]+" %n";
+        }
+        str += "%n Externals relocation table: %n";
+        for (int i=0; i < ert[0].length; i++) {
+            str +=  "r_offset: "  + ert[0][i]+
+                    "  r_info: "  + ert[1][i]+
+                    "  r_addend: "  + ert[2][i]+" %n";
+        }
+        FileWriter fw = new FileWriter(out);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(String.format(str));
+        bw.close();
     }
     
 }

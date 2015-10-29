@@ -76,8 +76,10 @@ public class GUI extends javax.swing.JFrame {
         jButtonRTExport = new javax.swing.JButton();
         jButtonRTExportAll = new javax.swing.JButton();
         jTabbedPaneRelocationTable = new javax.swing.JTabbedPane();
-        jTabbedPaneRTInternal = new javax.swing.JTabbedPane();
-        jTabbedPaneRTExternal = new javax.swing.JTabbedPane();
+        jScrollPaneIrt = new javax.swing.JScrollPane();
+        jTableIrt = new javax.swing.JTable();
+        jScrollPaneErt = new javax.swing.JScrollPane();
+        jTableErt = new javax.swing.JTable();
         jSeparatorRTE = new javax.swing.JSeparator();
         jMenuBarMain = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
@@ -100,7 +102,7 @@ public class GUI extends javax.swing.JFrame {
         jMenuItemQAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("RsoEditor v0.1");
+        setTitle("RsoEditor v0.2");
 
         jButtonHeaderImport.setText("Import");
         jButtonHeaderImport.setEnabled(false);
@@ -169,7 +171,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jSeparatorHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelHeader)
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addContainerGap(205, Short.MAX_VALUE))
         );
 
         jTabbedPaneMain.addTab("Header", jPanelHeader);
@@ -375,8 +377,59 @@ public class GUI extends javax.swing.JFrame {
             }
         });
 
-        jTabbedPaneRelocationTable.addTab("Internal", jTabbedPaneRTInternal);
-        jTabbedPaneRelocationTable.addTab("External", jTabbedPaneRTExternal);
+        jTableIrt.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "r_offset", "r_info", "r_addend"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneIrt.setViewportView(jTableIrt);
+
+        jTabbedPaneRelocationTable.addTab("Internal", jScrollPaneIrt);
+
+        jTableErt.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "r_offset", "r_info", "r_addend"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneErt.setViewportView(jTableErt);
+
+        jTabbedPaneRelocationTable.addTab("External", jScrollPaneErt);
 
         javax.swing.GroupLayout jPanelRelocationTableLayout = new javax.swing.GroupLayout(jPanelRelocationTable);
         jPanelRelocationTable.setLayout(jPanelRelocationTableLayout);
@@ -385,7 +438,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanelRelocationTableLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelRelocationTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPaneRelocationTable)
+                    .addComponent(jTabbedPaneRelocationTable, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanelRelocationTableLayout.createSequentialGroup()
                         .addComponent(jButtonRTExport)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -404,7 +457,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparatorRTE, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPaneRelocationTable, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                .addComponent(jTabbedPaneRelocationTable, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -542,7 +595,7 @@ public class GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPaneMain, javax.swing.GroupLayout.PREFERRED_SIZE, 317, Short.MAX_VALUE)
+                .addComponent(jTabbedPaneMain, javax.swing.GroupLayout.PREFERRED_SIZE, 325, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -639,10 +692,59 @@ public class GUI extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="[GUI] Relocation Table    - Buttons Event">
     private void jButtonRTExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRTExportActionPerformed
         // TODO add your handling code here:
+        if (!isLoaded) {
+            eUI.messageBoxExt(this, "Rso file isn't loaded!", "Failed to load RSO file", easyUI.MBIcon_ERROR);
+            return;
+        }
+        
+        //--- Get File
+        File out = eUI.getSaveFilename(new String[] {"Text file"}, new String[] {".txt"});
+        if (out == null) {
+            eUI.messageBoxExt(this, "File error!", "Failed to save file", easyUI.MBIcon_ERROR);
+            return;
+        } else if (out.exists()) {
+            eUI.messageBoxExt(this, "File already exists!", "Failed to save file", easyUI.MBIcon_INFORMATION);
+            return;
+        }
+        
+        //--- Export
+        java.awt.Component comp = jTabbedPaneRelocationTable.getSelectedComponent();
+        try {
+            if (comp == jScrollPaneErt) {
+                rsoFile.exportRelocationTable(ert, out);
+            } else if (comp == jScrollPaneIrt) {
+                rsoFile.exportRelocationTable(irt, out);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        eUI.messageBoxExt(this, "Relocation table exported!", "Done", easyUI.MBIcon_INFORMATION);
     }//GEN-LAST:event_jButtonRTExportActionPerformed
 
     private void jButtonRTExportAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRTExportAllActionPerformed
         // TODO add your handling code here:
+        if (!isLoaded) {
+            eUI.messageBoxExt(this, "Rso file isn't loaded!", "Failed to load RSO file", easyUI.MBIcon_ERROR);
+            return;
+        }
+        
+        //--- Get File
+        File out = eUI.getSaveFilename(new String[] {"Text file"}, new String[] {".txt"});
+        if (out == null) {
+            eUI.messageBoxExt(this, "File error!", "Failed to save file", easyUI.MBIcon_ERROR);
+            return;
+        } else if (out.exists()) {
+            eUI.messageBoxExt(this, "File already exists!", "Failed to save file", easyUI.MBIcon_INFORMATION);
+            return;
+        }
+        
+        //--- Export All
+        try {
+            rsoFile.exportAllRelocationTable(irt, ert, out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        eUI.messageBoxExt(this, "Relocation tables exported!", "Done", easyUI.MBIcon_INFORMATION);
     }//GEN-LAST:event_jButtonRTExportAllActionPerformed
     //</editor-fold>
     
@@ -694,6 +796,8 @@ public class GUI extends javax.swing.JFrame {
         isLoaded = true;
         jButtonDataExtract.setEnabled(true);
         jButtonDataExtractAll.setEnabled(true);
+        jButtonRTExport.setEnabled(true);
+        jButtonRTExportAll.setEnabled(true);
         
         //--- Write Block properties
         jLabelData01.setText("<html>Offset: 0x"+Long.toHexString(rsoFile.block01Offset)+"<br />"+
@@ -708,8 +812,26 @@ public class GUI extends javax.swing.JFrame {
                                     "Size:  0x"+Long.toHexString(rsoFile.block05Size)+"</html>");
         jLabelData06.setText("<html>Offset: 0x"+Long.toHexString(rsoFile.block06Offset)+"<br />"+
                                     "Size:  0x"+Long.toHexString(rsoFile.block06Size)+"</html>");
-            
-        //--- Write Relocation Table properties  
+    
+        //--- Write Internal Relocation Table
+        javax.swing.table.DefaultTableModel modelIrt = (javax.swing.table.DefaultTableModel) jTableIrt.getModel();
+        irt = rsoFile.getRelocationTable(rsoFile.irtOffset, rsoFile.irtSize);
+        modelIrt.setRowCount(0); if (irt == null) { return; }
+        
+        for (int i=0; i < irt[0].length; i++){
+            modelIrt.addRow(new String[] { irt[0][i], irt[1][i], irt[2][i] });
+        }
+        modelIrt.fireTableDataChanged();
+        
+        //--- Write External Relocation Table properties  
+        javax.swing.table.DefaultTableModel modelErt = (javax.swing.table.DefaultTableModel) jTableErt.getModel();
+        ert = rsoFile.getRelocationTable(rsoFile.ertOffset, rsoFile.ertSize);
+        modelErt.setRowCount(0); if (ert == null) { return; }
+        
+        for (int i=0; i < ert[0].length; i++){
+            modelErt.addRow(new String[] { ert[0][i], ert[1][i], ert[2][i] });
+        }
+        modelErt.fireTableDataChanged();
     }//GEN-LAST:event_jMenuItemFileOpenActionPerformed
 
     private void jMenuItemFileOpenAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFileOpenAsActionPerformed
@@ -766,7 +888,7 @@ public class GUI extends javax.swing.JFrame {
     private void jMenuItemQAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemQAboutActionPerformed
         // TODO add your handling code here:
         eUI.messageBox(this,String.format(
-                            "    RsoTool v0.1 %n %n"+
+                            "    RsoTool v0.2 %n %n"+
                             "    Copyright © 2013  SPLN (sepalani) %n"+
                             "    This program is free software: you can redistribute it and/or modify%n" +
                             "    it under the terms of the GNU General Public License as published by%n" +
@@ -858,6 +980,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelData06;
     private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelRelocationTable;
+    private javax.swing.JScrollPane jScrollPaneErt;
+    private javax.swing.JScrollPane jScrollPaneIrt;
     private javax.swing.JSeparator jSeparatorData;
     private javax.swing.JPopupMenu.Separator jSeparatorFile1;
     private javax.swing.JPopupMenu.Separator jSeparatorFile2;
@@ -866,14 +990,15 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparatorRTE;
     private javax.swing.JTabbedPane jTabbedPaneDataBlocks;
     private javax.swing.JTabbedPane jTabbedPaneMain;
-    private javax.swing.JTabbedPane jTabbedPaneRTExternal;
-    private javax.swing.JTabbedPane jTabbedPaneRTInternal;
     private javax.swing.JTabbedPane jTabbedPaneRelocationTable;
+    private javax.swing.JTable jTableErt;
+    private javax.swing.JTable jTableIrt;
     // End of variables declaration//GEN-END:variables
     // Variables declaration (Custom)
     easyUI eUI;
-    private boolean isLoaded;           // Is a file loaded
-    private boolean isRso;              // Is an *.rso file
-    private RSO     rsoFile;            // Rso file
-    private long    rsoOffset;          // Rso offset
+    private boolean     isLoaded;           // Is a file loaded
+    private boolean     isRso;              // Is an *.rso file
+    private RSO         rsoFile;            // Rso file
+    private long        rsoOffset;          // Rso offset
+    private String[][]  irt, ert;           // Relocation Table
 }
