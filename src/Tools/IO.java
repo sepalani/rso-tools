@@ -40,6 +40,22 @@ public class IO extends RandomAccessFile {
     public long readUint32() throws IOException {
         return ((long)this.read() << 24)|(long)this.readUint24();
     }
+    
+    public String readString() throws IOException {
+        int chr; String buff = "";
+        while ((chr=this.readUint8())!= 0x00) {
+            buff += (char)chr;
+        }
+        return buff;
+    }
+    
+    public String readString(int lim) throws IOException {
+        int i, chr; String buff = "";
+        for (i = 0; (chr=this.readUint8()) != 0x00 && i < lim; i++) {
+            buff += (char)chr;
+        }
+        return buff;
+    }
         
 }
 

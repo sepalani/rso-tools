@@ -11,7 +11,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+    along with RsoTool.  If not, see <http://www.gnu.org/licenses/>.
  */
 package rsotool;
 
@@ -81,6 +81,15 @@ public class GUI extends javax.swing.JFrame {
         jScrollPaneErt = new javax.swing.JScrollPane();
         jTableErt = new javax.swing.JTable();
         jSeparatorRTE = new javax.swing.JSeparator();
+        jPanelFunctions = new javax.swing.JPanel();
+        jButtonFunctionsExport = new javax.swing.JButton();
+        jButtonFunctionsExportAll = new javax.swing.JButton();
+        jTabbedPaneFunctions = new javax.swing.JTabbedPane();
+        jScrollPaneExports = new javax.swing.JScrollPane();
+        jTableExports = new javax.swing.JTable();
+        jScrollPaneImports = new javax.swing.JScrollPane();
+        jTableImports = new javax.swing.JTable();
+        jSeparatorFunctions = new javax.swing.JSeparator();
         jMenuBarMain = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuFileNew = new javax.swing.JMenu();
@@ -90,6 +99,7 @@ public class GUI extends javax.swing.JFrame {
         jMenuItemFileOpen = new javax.swing.JMenuItem();
         jMenuItemFileOpenAs = new javax.swing.JMenuItem();
         jSeparatorFile1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItemDump = new javax.swing.JMenuItem();
         jMenuItemFileSave = new javax.swing.JMenuItem();
         jMenuItemFileSaveAs = new javax.swing.JMenuItem();
         jSeparatorFile2 = new javax.swing.JPopupMenu.Separator();
@@ -102,7 +112,7 @@ public class GUI extends javax.swing.JFrame {
         jMenuItemQAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("RsoEditor v0.2");
+        setTitle("RsoEditor v0.3");
 
         jButtonHeaderImport.setText("Import");
         jButtonHeaderImport.setEnabled(false);
@@ -155,7 +165,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jButtonHeaderExtract)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonHeaderReplace)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 17, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelHeaderLayout.setVerticalGroup(
@@ -171,7 +181,7 @@ public class GUI extends javax.swing.JFrame {
                 .addComponent(jSeparatorHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelHeader)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
 
         jTabbedPaneMain.addTab("Header", jPanelHeader);
@@ -209,7 +219,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanelData01Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelData01)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanelData01Layout.setVerticalGroup(
             jPanelData01Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +240,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanelData02Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelData02)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanelData02Layout.setVerticalGroup(
             jPanelData02Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +261,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanelData03Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelData03)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanelData03Layout.setVerticalGroup(
             jPanelData03Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,7 +282,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanelData04Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelData04)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanelData04Layout.setVerticalGroup(
             jPanelData04Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,7 +303,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanelData05Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelData05)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanelData05Layout.setVerticalGroup(
             jPanelData05Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +324,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(jPanelData06Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelData06)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(207, Short.MAX_VALUE))
         );
         jPanelData06Layout.setVerticalGroup(
             jPanelData06Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -443,7 +453,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(jButtonRTExport)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonRTExportAll)
-                        .addGap(0, 125, Short.MAX_VALUE)))
+                        .addGap(0, 142, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(jSeparatorRTE)
         );
@@ -457,11 +467,113 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparatorRTE, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPaneRelocationTable, javax.swing.GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE)
+                .addComponent(jTabbedPaneRelocationTable, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPaneMain.addTab("Relocation Table", jPanelRelocationTable);
+
+        jButtonFunctionsExport.setText("Export");
+        jButtonFunctionsExport.setEnabled(false);
+        jButtonFunctionsExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFunctionsExportActionPerformed(evt);
+            }
+        });
+
+        jButtonFunctionsExportAll.setText("Export all");
+        jButtonFunctionsExportAll.setEnabled(false);
+        jButtonFunctionsExportAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFunctionsExportAllActionPerformed(evt);
+            }
+        });
+
+        jTableExports.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "section", "offset", "name"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneExports.setViewportView(jTableExports);
+
+        jTabbedPaneFunctions.addTab("Exports", jScrollPaneExports);
+
+        jTableImports.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "section", "offset", "name"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPaneImports.setViewportView(jTableImports);
+
+        jTabbedPaneFunctions.addTab("Imports", jScrollPaneImports);
+
+        javax.swing.GroupLayout jPanelFunctionsLayout = new javax.swing.GroupLayout(jPanelFunctions);
+        jPanelFunctions.setLayout(jPanelFunctionsLayout);
+        jPanelFunctionsLayout.setHorizontalGroup(
+            jPanelFunctionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFunctionsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelFunctionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPaneFunctions, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanelFunctionsLayout.createSequentialGroup()
+                        .addComponent(jButtonFunctionsExport)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonFunctionsExportAll)
+                        .addGap(0, 142, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(jSeparatorFunctions)
+        );
+        jPanelFunctionsLayout.setVerticalGroup(
+            jPanelFunctionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelFunctionsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelFunctionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonFunctionsExport)
+                    .addComponent(jButtonFunctionsExportAll))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparatorFunctions, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPaneFunctions, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPaneMain.addTab("Functions", jPanelFunctions);
 
         jMenuFile.setText("File");
 
@@ -510,6 +622,15 @@ public class GUI extends javax.swing.JFrame {
         });
         jMenuFile.add(jMenuItemFileOpenAs);
         jMenuFile.add(jSeparatorFile1);
+
+        jMenuItemDump.setText("Dump");
+        jMenuItemDump.setEnabled(false);
+        jMenuItemDump.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemDumpActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuItemDump);
 
         jMenuItemFileSave.setText("Save");
         jMenuItemFileSave.setEnabled(false);
@@ -595,7 +716,7 @@ public class GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPaneMain, javax.swing.GroupLayout.PREFERRED_SIZE, 325, Short.MAX_VALUE)
+                .addComponent(jTabbedPaneMain, javax.swing.GroupLayout.PREFERRED_SIZE, 333, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -748,6 +869,66 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonRTExportAllActionPerformed
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="[GUI] Functions           - Buttons Event">
+    private void jButtonFunctionsExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFunctionsExportActionPerformed
+        // TODO add your handling code here:
+        if (!isLoaded) {
+            eUI.messageBoxExt(this, "Rso file isn't loaded!", "Failed to load RSO file", easyUI.MBIcon_ERROR);
+            return;
+        }
+        
+        //--- Get File
+        File out = eUI.getSaveFilename(new String[] {"Text file"}, new String[] {".txt"});
+        if (out == null) {
+            eUI.messageBoxExt(this, "File error!", "Failed to save file", easyUI.MBIcon_ERROR);
+            return;
+        } else if (out.exists()) {
+            eUI.messageBoxExt(this, "File already exists!", "Failed to save file", easyUI.MBIcon_INFORMATION);
+            return;
+        }
+        
+        //--- Export
+        java.awt.Component comp = jTabbedPaneFunctions.getSelectedComponent();
+        try {
+            if (comp == jScrollPaneExports) {
+                rsoFile.exportExports(exp, out);
+            } else if (comp == jScrollPaneImports) {
+                rsoFile.exportImports(imp, out);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        eUI.messageBoxExt(this, "Imports/Exports exported!", "Done", easyUI.MBIcon_INFORMATION);
+    }//GEN-LAST:event_jButtonFunctionsExportActionPerformed
+
+    private void jButtonFunctionsExportAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFunctionsExportAllActionPerformed
+        // TODO add your handling code here:
+        if (!isLoaded) {
+            eUI.messageBoxExt(this, "Rso file isn't loaded!", "Failed to load RSO file", easyUI.MBIcon_ERROR);
+            return;
+        }
+        
+        //--- Get File
+        File out = eUI.getSaveFilename(new String[] {"Text file"}, new String[] {".txt"});
+        if (out == null) {
+            eUI.messageBoxExt(this, "File error!", "Failed to save file", easyUI.MBIcon_ERROR);
+            return;
+        } else if (out.exists()) {
+            eUI.messageBoxExt(this, "File already exists!", "Failed to save file", easyUI.MBIcon_INFORMATION);
+            return;
+        }
+        
+        //--- Export All
+        try {
+            rsoFile.exportAllFunctions(exp, imp, out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        eUI.messageBoxExt(this, "Imports and Exports exported!", "Done", easyUI.MBIcon_INFORMATION);
+    }//GEN-LAST:event_jButtonFunctionsExportAllActionPerformed
+    
+    //</editor-fold>
+    
     
     //--- Menu Events
     
@@ -798,6 +979,9 @@ public class GUI extends javax.swing.JFrame {
         jButtonDataExtractAll.setEnabled(true);
         jButtonRTExport.setEnabled(true);
         jButtonRTExportAll.setEnabled(true);
+        jButtonFunctionsExport.setEnabled(true);
+        jButtonFunctionsExportAll.setEnabled(true);
+        jMenuItemDump.setEnabled(true);
         
         //--- Write Block properties
         jLabelData01.setText("<html>Offset: 0x"+Long.toHexString(rsoFile.block01Offset)+"<br />"+
@@ -832,6 +1016,27 @@ public class GUI extends javax.swing.JFrame {
             modelErt.addRow(new String[] { ert[0][i], ert[1][i], ert[2][i] });
         }
         modelErt.fireTableDataChanged();
+        
+        //--- Write Imports
+        javax.swing.table.DefaultTableModel modelImp = (javax.swing.table.DefaultTableModel) jTableImports.getModel();
+        imp = rsoFile.getImports(rsoFile.importsOffset, rsoFile.importsSize);
+        modelImp.setRowCount(0); if (imp == null) { return; }
+        
+        for (int i=0; i < imp[0].length; i++){
+            modelImp.addRow(new String[] { String.format("%08X", i), imp[1][i], imp[2][i], imp[3][i] });
+        }
+        modelImp.fireTableDataChanged();
+        
+        //--- Write Exports
+        javax.swing.table.DefaultTableModel modelExp = (javax.swing.table.DefaultTableModel) jTableExports.getModel();
+        exp = rsoFile.getExports(rsoFile.exportsOffset, rsoFile.exportsSize);
+        modelExp.setRowCount(0); if (exp == null) { return; }
+        
+        for (int i=0; i < exp[0].length; i++){
+            modelExp.addRow(new String[] { String.format("%08X", i), exp[2][i], exp[1][i], exp[4][i] });
+        }
+        modelExp.fireTableDataChanged();
+        
     }//GEN-LAST:event_jMenuItemFileOpenActionPerformed
 
     private void jMenuItemFileOpenAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFileOpenAsActionPerformed
@@ -855,6 +1060,33 @@ public class GUI extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="[GUI] File > Save         - Items Event">
+    
+    private void jMenuItemDumpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDumpActionPerformed
+        // TODO add your handling code here:
+        if (!isLoaded) {
+            eUI.messageBoxExt(this, "Rso file isn't loaded!", "Failed to load RSO file", easyUI.MBIcon_ERROR);
+            return;
+        }
+        
+        //--- Get File
+        File out = eUI.getSaveFilename(new String[] {"Text file"}, new String[] {".txt"});
+        if (out == null) {
+            eUI.messageBoxExt(this, "File error!", "Failed to save file", easyUI.MBIcon_ERROR);
+            return;
+        } else if (out.exists()) {
+            eUI.messageBoxExt(this, "File already exists!", "Failed to save file", easyUI.MBIcon_INFORMATION);
+            return;
+        }
+        
+        //--- Dump
+        try {
+            rsoFile.dump(exp, imp, irt, ert, out);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        eUI.messageBoxExt(this, "Data dumped successfuly!", "Done", easyUI.MBIcon_INFORMATION);
+    }//GEN-LAST:event_jMenuItemDumpActionPerformed
+    
     private void jMenuItemFileSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFileSaveActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItemFileSaveActionPerformed
@@ -888,7 +1120,7 @@ public class GUI extends javax.swing.JFrame {
     private void jMenuItemQAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemQAboutActionPerformed
         // TODO add your handling code here:
         eUI.messageBox(this,String.format(
-                            "    RsoTool v0.2 %n %n"+
+                            "    RsoTool v0.3 %n %n"+
                             "    Copyright © 2013  SPLN (sepalani) %n"+
                             "    This program is free software: you can redistribute it and/or modify%n" +
                             "    it under the terms of the GNU General Public License as published by%n" +
@@ -904,6 +1136,7 @@ public class GUI extends javax.swing.JFrame {
                             "    along with this program.  If not, see <http://www.gnu.org/licenses/>."));
     }//GEN-LAST:event_jMenuItemQAboutActionPerformed
     //</editor-fold>
+    
     
       
     /**
@@ -942,6 +1175,8 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton jButtonDataExtract;
     private javax.swing.JButton jButtonDataExtractAll;
     private javax.swing.JButton jButtonDataReplace;
+    private javax.swing.JButton jButtonFunctionsExport;
+    private javax.swing.JButton jButtonFunctionsExportAll;
     private javax.swing.JButton jButtonHeaderExport;
     private javax.swing.JButton jButtonHeaderExtract;
     private javax.swing.JButton jButtonHeaderImport;
@@ -958,6 +1193,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBarMain;
     private javax.swing.JMenu jMenuFile;
     private javax.swing.JMenu jMenuFileNew;
+    private javax.swing.JMenuItem jMenuItemDump;
     private javax.swing.JMenuItem jMenuItemFileExit;
     private javax.swing.JMenuItem jMenuItemFileExtract;
     private javax.swing.JMenuItem jMenuItemFileExtractAll;
@@ -978,20 +1214,27 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelData04;
     private javax.swing.JPanel jPanelData05;
     private javax.swing.JPanel jPanelData06;
+    private javax.swing.JPanel jPanelFunctions;
     private javax.swing.JPanel jPanelHeader;
     private javax.swing.JPanel jPanelRelocationTable;
     private javax.swing.JScrollPane jScrollPaneErt;
+    private javax.swing.JScrollPane jScrollPaneExports;
+    private javax.swing.JScrollPane jScrollPaneImports;
     private javax.swing.JScrollPane jScrollPaneIrt;
     private javax.swing.JSeparator jSeparatorData;
     private javax.swing.JPopupMenu.Separator jSeparatorFile1;
     private javax.swing.JPopupMenu.Separator jSeparatorFile2;
     private javax.swing.JPopupMenu.Separator jSeparatorFile3;
+    private javax.swing.JSeparator jSeparatorFunctions;
     private javax.swing.JSeparator jSeparatorHeader;
     private javax.swing.JSeparator jSeparatorRTE;
     private javax.swing.JTabbedPane jTabbedPaneDataBlocks;
+    private javax.swing.JTabbedPane jTabbedPaneFunctions;
     private javax.swing.JTabbedPane jTabbedPaneMain;
     private javax.swing.JTabbedPane jTabbedPaneRelocationTable;
     private javax.swing.JTable jTableErt;
+    private javax.swing.JTable jTableExports;
+    private javax.swing.JTable jTableImports;
     private javax.swing.JTable jTableIrt;
     // End of variables declaration//GEN-END:variables
     // Variables declaration (Custom)
@@ -1000,5 +1243,5 @@ public class GUI extends javax.swing.JFrame {
     private boolean     isRso;              // Is an *.rso file
     private RSO         rsoFile;            // Rso file
     private long        rsoOffset;          // Rso offset
-    private String[][]  irt, ert;           // Relocation Table
+    private String[][]  irt, ert, imp, exp; // Relocation Table
 }

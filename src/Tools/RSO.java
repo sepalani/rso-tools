@@ -11,7 +11,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+    along with RsoTool.  If not, see <http://www.gnu.org/licenses/>.
  */
 package Tools;
 
@@ -50,6 +50,7 @@ public class RSO {
                 block06Offset, block06Size;
     
     // File information
+    String getName = "";
     File getFile = null;
     easyUI eUI = new easyUI();
     
@@ -124,7 +125,12 @@ public class RSO {
                 /*0x80 (uint32)*/ block05Offset    =   file.readUint32();
                 /*0x84 (uint32)*/ block05Size      =   file.readUint32();
                 /*0x88 (uint32)*/ block06Offset    =   file.readUint32();
-                /*0x8C (uint32)*/ block06Size      =   file.readUint32();                
+                /*0x8C (uint32)*/ block06Size      =   file.readUint32();
+                
+                //--- Optional
+                file.seek(nameOffset);
+                getName = file.readString((int)nameSize);
+                
         } catch (IOException e) {
             System.out.println("--- Failed to load RSO Header! ---");
             e.printStackTrace();
@@ -266,4 +272,186 @@ public class RSO {
         bw.close();
     }
     
+    public String[][] getImports(long offset, long size) {
+        List<String> r0 = new ArrayList();  // nameOffset
+        List<String> r1 = new ArrayList();  // Unknown
+        List<String> r2 = new ArrayList();  // Unknown
+        List<String> name = new ArrayList();// name
+        
+        try {
+            IO file = new IO(getFile,"r");
+            file.seek(offset);
+            
+            // Get imports
+            String dbg; long back;
+            for (int i=0; i < size;) {
+                // Get name
+                offset = file.readUint32(); // = r0
+                back = file.getFilePointer();
+                file.seek(importsName+offset);
+                dbg = file.readString();
+                file.seek(back);
+                
+                name.add(dbg);
+                r0.add(String.format("%08X", offset));i+=4;
+                r1.add(String.format("%08X", file.readUint32()));i+=4;
+                r2.add(String.format("%08X", file.readUint32()));i+=4;
+               
+                System.out.println("Name (import): "+dbg);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[][] ret = new String[4][];
+        ret[0] = r0.toArray(new String[r0.size()]);
+        ret[1] = r1.toArray(new String[r1.size()]);
+        ret[2] = r2.toArray(new String[r2.size()]);
+        ret[3] = name.toArray(new String[name.size()]);
+        
+        return ret;
+    }
+    
+    public void exportImports(String[][] imp, File out) throws IOException {
+        String str = "";
+        for (int i = 0; i < imp[0].length; i++) {
+            str += String.format("%08X", i)+":";
+            str += imp[1][i]+":";
+            str += imp[2][i]+":";
+            str += imp[3][i]+"%n"; 
+        }
+        FileWriter fw = new FileWriter(out);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(String.format(str));
+        bw.close();
+    }
+    
+    public String[][] getExports(long offset, long size) {
+        List<String> r0 = new ArrayList();  // nameOffset
+        List<String> r1 = new ArrayList();  // Unknown
+        List<String> r2 = new ArrayList();  // Unknown
+        List<String> r3 = new ArrayList();  // Unknown
+        List<String> name = new ArrayList();// name
+        
+        try {
+            IO file = new IO(getFile,"r");
+            file.seek(offset);
+            
+            // Get imports
+            String dbg; long back;
+            for (int i=0; i < size;) {
+                // Get name
+                offset = file.readUint32(); // = r0
+                back = file.getFilePointer();
+                file.seek(exportsName+offset);
+                dbg = file.readString();
+                file.seek(back);
+                
+                name.add(dbg);
+                r0.add(String.format("%08X", offset));i+=4;
+                r1.add(String.format("%08X", file.readUint32()));i+=4;
+                r2.add(String.format("%08X", file.readUint32()));i+=4;
+                r3.add(String.format("%08X", file.readUint32()));i+=4;
+               
+                System.out.println("Name (export): "+dbg);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String[][] ret = new String[5][];
+        ret[0] = r0.toArray(new String[r0.size()]);
+        ret[1] = r1.toArray(new String[r1.size()]);
+        ret[2] = r2.toArray(new String[r2.size()]);
+        ret[3] = r3.toArray(new String[r3.size()]);
+        ret[4] = name.toArray(new String[name.size()]);
+        
+        return ret;
+    }
+    
+    public void exportExports(String[][] exp, File out) throws IOException {
+        String str = "";
+        for (int i = 0; i < exp[0].length; i++) {
+            str += String.format("%08X", i)+":";
+            str += exp[2][i]+":";
+            str += exp[1][i]+":";
+            str += exp[4][i]+"%n"; 
+        }
+        FileWriter fw = new FileWriter(out);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(String.format(str));
+        bw.close();
+    }
+    
+    public void exportAllFunctions(String[][] exp, String[][] imp, File out) throws IOException {
+        String str = " Exports : %n";
+        for (int i = 0; i < exp[0].length; i++) {
+            str += String.format("%08X", i)+":";
+            str += exp[2][i]+":";
+            str += exp[1][i]+":";
+            str += exp[4][i]+"%n"; 
+        }
+        str +=" %n Imports : %n";
+        for (int i = 0; i < imp[0].length; i++) {
+            str += String.format("%08X", i)+":";
+            str += imp[1][i]+":";
+            str += imp[2][i]+":";
+            str += imp[3][i]+"%n"; 
+        }
+        
+        FileWriter fw = new FileWriter(out);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(String.format(str));
+        bw.close();
+    }
+    
+    public void dump(String[][] exp, String[][] imp, String[][] irt, String[][] ert, File out) throws IOException {
+        String str = " Generated from: "+getName+" %n "+
+                     sectionNumber+" sections %n";
+        str += "01: 0x"+String.format("%08X", block01Offset)+
+                   " ["+String.format("%08X", block01Size)+"] // Assembly %n";
+        str += "02: 0x"+String.format("%08X", block02Offset)+
+                   " ["+String.format("%08X", block02Size)+"] // Constructors %n";
+        str += "03: 0x"+String.format("%08X", block03Offset)+
+                   " ["+String.format("%08X", block03Size)+"] // Destructors %n";
+        str += "04: 0x"+String.format("%08X", block04Offset)+
+                   " ["+String.format("%08X", block04Size)+"] // Constants %n";
+        str += "05: 0x"+String.format("%08X", block05Offset)+
+                   " ["+String.format("%08X", block05Size)+"] // Objects %n";
+        str += "06: 0x"+String.format("%08X", block06Offset)+
+                   " ["+String.format("%08X", block06Size)+"] // BSS section %n";
+        
+        str += "%n Exports: %n";
+        for (int i = 0; i < exp[0].length; i++) {
+            str += String.format("%08X", i)+":";
+            str += exp[2][i]+":";
+            str += exp[1][i]+":";
+            str += exp[4][i]+"%n"; 
+        }
+        
+        str += "%n Imports: %n";
+        for (int i = 0; i < imp[0].length; i++) {
+            str += String.format("%08X", i)+":";
+            str += imp[1][i]+":";
+            str += imp[2][i]+":";
+            str += imp[3][i]+"%n"; 
+        }
+        
+        str += "%n Internals relocation table: %n";
+        for (int i=0; i < irt[0].length; i++) {
+            str +=  "r_offset: "    + irt[0][i]+
+                    "  r_info: "    + irt[1][i]+
+                    "  r_addend: "  + irt[2][i]+" %n";
+        }
+        
+        str += "%n Externals relocation table: %n";
+        for (int i=0; i < ert[0].length; i++) {
+            str +=  "r_offset: "  + ert[0][i]+
+                    "  r_info: "  + ert[1][i]+
+                    "  r_addend: "  + ert[2][i]+" %n";
+        }
+        
+        FileWriter fw = new FileWriter(out);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(String.format(str));
+        bw.close();
+    }
 }
